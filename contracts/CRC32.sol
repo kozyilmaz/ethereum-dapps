@@ -275,11 +275,20 @@ contract CRC32 {
 
   /**
    * @dev Function to calculate CRC32
-   * @param _to The address that will receive the minted tokens.
-   * @param _amount The amount of tokens to mint.
+   * @param _buffer The data buffer to be checksummed
+   * @param _size The size of the data buffer
    * @return A boolean that indicates if the operation was successful.
    */
-  function signup(uint256 _pref) public {
+  function crc32(bytes _buffer, uint64 _size) public view returns (uint32) {
+
+    uint64 idx = 0;
+    uint32 crc = 0xffffffff;
+
+    while (_size-- > 0) {
+      crc = crc32_ieee_tab[(crc ^ uint8(_buffer[idx])) & 0xFF] ^ (crc >> 8);
+      idx++;
+    }
+    return (crc ^ 0xffffffff);
   }
 
 }
