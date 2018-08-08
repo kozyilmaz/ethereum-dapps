@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "dev": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,13 @@
   "bugs": {
     "url": "https://github.com/kozyilmaz/crc32-ethereum/issues"
   },
-  "homepage": "https://github.com/kozyilmaz/crc32-ethereum#readme"
+  "homepage": "https://github.com/kozyilmaz/crc32-ethereum#readme",
+  "devDependencies": {
+    "lite-server": "^2.4.0"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "openzeppelin-solidity": "^1.11.0",
+    "truffle-hdwallet-provider": "0.0.6"
+  }
 }

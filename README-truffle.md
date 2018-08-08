@@ -38,7 +38,24 @@ $ git push
 $ npm install dotenv truffle-hdwallet-provider
 
 # install OpenZeppelin smart contracts as base (latest version at the time was v1.11.0)
-$ npm install openzeppelin-solidity@1.11.0
+$ npm install openzeppelin-solidity
+
+# install lite-server for DApp development
+$ npm install lite-server --save-dev
+
+# add "dev" to package.json
+   "scripts": {
++    "dev": "lite-server",
+     "test": "echo \"Error: no test specified\" && exit 1"
+   },
+
+# add config for lite-server
+$ cat bs-config.json
+{
+  "server": {
+    "baseDir": ["./app", "./build/contracts"]
+  }
+}
 
 # this creates package-lock.json, add to version control
 $ git add package-lock.json
@@ -62,22 +79,6 @@ $ truffle migrate --network mainnet
 $ truffle migrate --network ropsten
 $ truffle migrate --network rinkeby
 
-# use lite-server for DApp dev
-$ npm install lite-server --save-dev
-
-# add "dev" to package.json
-   "scripts": {
-+    "dev": "lite-server",
-     "test": "echo \"Error: no test specified\" && exit 1"
-   },
-
-# add config for lite-server
-$ cat bs-config.json
-{
-  "server": {
-    "baseDir": ["./app", "./build/contracts"]
-  }
-}
 
 # serve static content with lite-server
 $ npm run dev
