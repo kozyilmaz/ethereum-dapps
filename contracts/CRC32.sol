@@ -279,7 +279,7 @@ contract CRC32 {
    * @param _size The size of the data buffer
    * @return A boolean that indicates if the operation was successful.
    */
-  function crc32(bytes _buffer, uint64 _size) public view returns (uint32) {
+  function crc32(bytes _buffer, uint _size) public view returns (uint32) {
 
     uint64 idx = 0;
     uint32 crc = 0xffffffff;
