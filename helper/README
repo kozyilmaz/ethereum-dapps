@@ -1,0 +1,13 @@
+
+CRC32 code is copied from "The C Code Archive Network" (http://ccodearchive.net/) from the git repository below:
+https://github.com/rustyrussell/ccan.git
+
+Version is as follows:
+Last Changed Commit ID: 55d814230f7fb628bb5303cd53498209c7928040
+Last Changed Author: Rusty Russell <rusty@rustcorp.com.au>
+Last Changed Date: Fri Jul 27 15:55:50 2018 +0930
+
+Application does basic testing and creates the IEEE-compliant CRC32 table to be copied inside the Ethereum smart contract
+
+$ gcc -o crc32 crc32.c
+$ ./crc32 $STRING_TO_CHECK_CRC32
