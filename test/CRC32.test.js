@@ -7,8 +7,15 @@ contract('CRC32', function () {
     crc = await CRC32.new();
   });
 
-  it('should receive funds', async function () {
-    await crc.crc32('123456789', 9);
+  it('should calculate hex(0x1234567809) checksum correctly', async function () {
+    const checksum = await crc.crc32(0x1234567809, 5);
+    assert.equal(checksum, 0x55404551);
+  });
+
+  it('should calculate string(0x123456789) checksum correctly', async function () {
+  new Uint8Array("123456789")
+    const checksum = await crc.crc32(new Uint8Array("123456789") , 9);
+    assert.equal(checksum, 0xCBF43926);
   });
 
 });
