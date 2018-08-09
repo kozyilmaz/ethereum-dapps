@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/kozyilmaz/crc32-ethereum#readme",
   "devDependencies": {
-    "lite-server": "^2.4.0"
+    "dotenv": "^6.0.0",
+    "lite-server": "^2.4.0",
+    "truffle-hdwallet-provider": "0.0.6"
   },
   "dependencies": {
-    "dotenv": "^6.0.0",
-    "openzeppelin-solidity": "^1.11.0",
-    "truffle-hdwallet-provider": "0.0.6"
+    "openzeppelin-solidity": "^1.11.0"
   }
 }

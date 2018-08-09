@@ -34,11 +34,11 @@ $ git add package.json
 $ git commit package.json
 $ git push
 
-# install tool dependencies
-$ npm install dotenv truffle-hdwallet-provider
+# install .env capability for development
+$ npm install dotenv --save-dev
 
-# install OpenZeppelin smart contracts as base (latest version at the time was v1.11.0)
-$ npm install openzeppelin-solidity
+# install hd wallet provider for development
+$ npm install truffle-hdwallet-provider --save-dev
 
 # install lite-server for DApp development
 $ npm install lite-server --save-dev
@@ -56,6 +56,9 @@ $ cat bs-config.json
     "baseDir": ["./app", "./build/contracts"]
   }
 }
+
+# install OpenZeppelin smart contracts as base (latest version at the time was v1.11.0)
+$ npm install openzeppelin-solidity
 
 # this creates package-lock.json, add to version control
 $ git add package-lock.json
