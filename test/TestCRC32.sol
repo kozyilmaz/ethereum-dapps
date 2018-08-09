@@ -12,6 +12,7 @@ contract TestCRC32 {
     uint expected;
     bytes memory buffer;
 
+    // http://reveng.sourceforge.net/crc-catalogue/17plus.htm#crc.cat.crc-32
     buffer = '123456789'; expected = 0xCBF43926;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('123456789') != 0xCBF43926");
 
@@ -20,6 +21,10 @@ contract TestCRC32 {
 
     buffer = hex"1234567809"; expected = 0x55404551;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32(hex'1234567809') != 0x55404551");
+
+    // partial crc32
+    buffer = '123456789ABCDEF'; expected = 0xCBF43926;
+    Assert.equal(crc.crc32(buffer, 9), expected, "partial (9 char) crc32('123456789ABCDEF') != 0xCBF43926");
   }
 
   function testCRC32WithNewInstantiation() public {
@@ -28,6 +33,7 @@ contract TestCRC32 {
     uint expected;
     bytes memory buffer;
 
+    // http://reveng.sourceforge.net/crc-catalogue/17plus.htm#crc.cat.crc-32
     buffer = '123456789'; expected = 0xCBF43926;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('123456789') != 0xCBF43926");
 
@@ -36,6 +42,10 @@ contract TestCRC32 {
 
     buffer = hex"1234567809"; expected = 0x55404551;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32(hex'1234567809') != 0x55404551");
+
+    // partial crc32
+    buffer = '123456789ABCDEF'; expected = 0xCBF43926;
+    Assert.equal(crc.crc32(buffer, 9), expected, "partial (9 char) crc32('123456789ABCDEF') != 0xCBF43926");
   }
 
 }
