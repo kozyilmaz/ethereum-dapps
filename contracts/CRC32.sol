@@ -280,15 +280,16 @@ contract CRC32 {
    * @return A boolean that indicates if the operation was successful.
    */
   function crc32(bytes _buffer, uint _size) public view returns (uint32) {
+    require(_size > 0);
+    require(_buffer.length > 0);
+    require(_buffer.length >= _size);
 
-    uint64 idx = 0;
+    uint i = 0;
     uint32 crc = 0xffffffff;
 
     while (_size-- > 0) {
-      crc = crc32_ieee_tab[(crc ^ uint8(_buffer[idx])) & 0xFF] ^ (crc >> 8);
-      idx++;
+      crc = crc32_ieee_tab[uint8(crc & 0x000000ff) ^ uint8(_buffer[i++])] ^ (crc >> 8);
     }
     return (crc ^ 0xffffffff);
   }
-
 }
