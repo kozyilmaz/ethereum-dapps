@@ -71,6 +71,9 @@ $ npm install
 # compile smart contracts
 $ truffle compile
 
+# test smart contracts
+$ truffle test
+
 # create an .env file to store wallet seed and infura api keys for smooth deployment
 $ cat .env
 MNEMONIC=<wallet seed phrases (may be Metamask)>
@@ -81,7 +84,6 @@ $ truffle migrate --network localhost
 $ truffle migrate --network mainnet
 $ truffle migrate --network ropsten
 $ truffle migrate --network rinkeby
-
 
 # serve static content with lite-server
 $ npm run dev
