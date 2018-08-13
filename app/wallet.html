@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ethereum DApp Tests</title>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1>Ethereum Truffle & Metamask Test</h1>
+  <h2>Check default Ethereum account balance via Metamask</h2>
+  <p>Your default Ethereum address:
+    <span class="black"><span id="etherbalanceauto"></span></span>
+    <span class="black"><span id="tokenbalanceauto"></span></span>
+    <span class="black">[<span id="networkname"></span> network]</span>
+  </p>
+
+  <br>
+  <h2>Check any Ethereum account balance</h2>
+  <p>Enter your Ethereum Address:</p>
+  <input type="text" size="50" id="address" />
+  <button type="button" onClick="getBalance();">Get Balance</button>
+  <br><br>
+  <div id="etherbalancemanual"></div>
+  <div id="tokenbalancemanual"></div>
+
+  <br>
+  <h2>Signup</h2>
+  <p>This is a simulated 'preferences' string (uint256):</p>
+  <input type="text" size="50" id="preferences" />
+  <button type="button" onClick="App.signUp();">Sign Up</button>
+  <br><br>
+  <div id="signedupevent"></div>
+
+  <br>
+  <br>
+  <button type="button" onClick="App.login();">Login By Signing A Nonce</button>
+<br>
+  <!-- br>
+  <h1>Add to my own contract balance</h1>
+  <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
+  <br><br><button id="send" onclick="App.sendCoin()">Add some ¿X? Coin</button>
+  <br><br>
+  <span id="status"></span>
+  <br>
+  <span>Adding something to your contract costs FUEL to your account</span>
+  <br>
+  <span id="status2"></span>
+  <br><br>
+  <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span-->
+
+</body>
+</html>
