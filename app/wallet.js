@@ -118,9 +118,9 @@ window.addEventListener('load', function() {
   } else {
     // fallback - infura or localhost
     console.log('No Web3 Detected... using HTTP Provider')
-    window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + process.env.INFURA_API_KEY));
-    //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    // you may use Infura instead of local node if you provide an API key
+    //window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + INFURA_API_KEY));
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
   App.start();
 });
-
