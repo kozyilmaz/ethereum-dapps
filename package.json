@@ -1,7 +1,7 @@
 {
-  "name": "crc32-ethereum",
+  "name": "ethereum-dapps",
   "version": "1.0.0",
-  "description": "CRC32 Smart Contract (Solidity) for Ethereum",
+  "description": "Collection of DApps and Smart Contracts for Ethereum",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
@@ -12,19 +12,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kozyilmaz/crc32-ethereum.git"
+    "url": "git+https://github.com/kozyilmaz/ethereum-dapps.git"
   },
   "keywords": [
-    "CRC32",
-    "Solidity",
-    "Ethereum"
+    "Ethereum",
+    "DApps",
+    "Smart Contracts",
+    "Solidity"
   ],
   "author": "Kazım Rıfat Özyılmaz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kozyilmaz/crc32-ethereum/issues"
+    "url": "https://github.com/kozyilmaz/ethereum-dapps/issues"
   },
-  "homepage": "https://github.com/kozyilmaz/crc32-ethereum#readme",
+  "homepage": "https://github.com/kozyilmaz/ethereum-dapps#readme",
   "devDependencies": {
     "dotenv": "^6.0.0",
     "lite-server": "^2.4.0",

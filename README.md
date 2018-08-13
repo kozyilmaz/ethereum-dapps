@@ -1,2 +1,3 @@
-# crc32-ethereum
-CRC32 Solidity Smart Contract for Ethereum
+# ethereum-dapps
+Collection of DApps and Smart Contracts for Ethereum (ERC20 token, CRC32)
+
