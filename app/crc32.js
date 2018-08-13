@@ -1,54 +1,28 @@
 
-// ERC20 compliant minimum ABI
-let tokenABI = [
-    // balanceOf
+// Infura API key, please check web3 provider loading at the bottom
+let infuraAPIKey = "";
+
+// CRC32 smart contract minimum ABI
+let contractABI = [
+    // crc32
     {
       "constant": true,
-      "inputs": [{"name":"_owner","type":"address"}],
-      "name": "balanceOf",
-      "outputs": [{"name": "","type":"uint256"}],
-      "type": "function"
-    },
-    // decimals
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "decimals",
-      "outputs": [{ "name":"","type":"uint8"}],
+      "inputs": [{"name":"_buffer","type":"bytes"},{"name":"_size","type":"uint256"}],
+      "name": "crc32",
+      "outputs": [{"name":"","type":"uint32"}],
       "type": "function"
     }
 ];
 
-// ERC20 token address
-let tokenAddress = "";
+// contract address
+let contractAddress = "0x0f7363cbad2f8d9f63bb64aad5dabaf3f1ff1a0c";
 
-// accounts helper
-let accounts;
-let account;
-
+// application
 window.App = {
   start: function() {
     var self = this;
-
-    // get the initial account balance (requires Metamask/Mist)
-    web3.eth.getAccounts(function(error, accs) {
-      if (error != null) {
-        alert("There was an error fetching your accounts.");
-        return;
-      }
-      if (accs.length == 0) {
-        alert("Couldn't get any accounts, probably Metamask/Mist is not present!");
-        return;
-      }
-      accounts = accs;
-      account = accounts[0];
-
-      console.log("account is:" + account);
-
-      self.getEtherBalance(account, "etherbalanceauto");
-      self.getTokenBalance(account, "tokenbalanceauto");
-    });
-
+    // print network name and CRC32 contract address
+    document.getElementById("contractaddress").innerHTML = contractAddress;
     self.getNetworkName("networkname");
   },
 
@@ -65,11 +39,29 @@ window.App = {
         default: console.log('Unknown'); document.getElementById(elementName).innerHTML = "Unknown";
       }
     })
+  },
+
+  // CRC32 function
+  CRC32: function() {
+    var self = this;
+    let data = document.getElementById("data").value;
+    try {
+      let contract = web3.eth.contract(contractABI).at(contractAddress);
+      contract.crc32("123456789", 9, function(error, result) {
+        if (!error) {
+          document.getElementById("crc32result").innerHTML = result;
+        } else {
+          console.warn("crc32() failed!");
+          document.getElementById("crc32result").innerHTML = error;
+        }
+      });
+    } catch (error) {
+    }
   }
 
 };
 
-// hook up web3 provider
+// hooking up web3 provider
 window.addEventListener('load', function() {
   // checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -79,7 +71,7 @@ window.addEventListener('load', function() {
     // fallback - infura or localhost
     console.log('No Web3 Detected... using HTTP Provider')
     // you may use Infura instead of local node if you provide an API key
-    //window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + INFURA_API_KEY));
+    //window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + infuraAPIKey));
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
   App.start();

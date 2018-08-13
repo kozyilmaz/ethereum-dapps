@@ -7,5 +7,16 @@
 </head>
 <body>
   <h1>Ethereum CRC32 Test</h1>
+  <h2>Using the smart contract at 
+    <span class="black"><span id="contractaddress"></span></span>
+    <span class="black"> on <span id="networkname"></span> network</span>
+  </h2>
+
+  <p>Check CRC32 of a string or hex number (hex number should start with '0x' and have even length)</p>
+  <input type="text" size="50" id="data" />
+  <button type="button" onClick="App.CRC32();">Compute CRC32</button>
+  <br><br>
+  <div id="crc32result"></div>
+
 </body>
 </html>
