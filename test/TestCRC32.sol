@@ -19,6 +19,9 @@ contract TestCRC32 {
     buffer = 'IHATEMATH'; expected = 0x35C6AD5A;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('IHATEMATH') != 0x35C6AD5A");
 
+    buffer = '1234567890'; expected = 0x261DAEE5;
+    Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('1234567890') != 0x261DAEE5");
+
     buffer = hex"1234567809"; expected = 0x55404551;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32(hex'1234567809') != 0x55404551");
 
@@ -39,6 +42,9 @@ contract TestCRC32 {
 
     buffer = 'IHATEMATH'; expected = 0x35C6AD5A;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('IHATEMATH') != 0x35C6AD5A");
+
+    buffer = '1234567890'; expected = 0x261DAEE5;
+    Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32('1234567890') != 0x261DAEE5");
 
     buffer = hex"1234567809"; expected = 0x55404551;
     Assert.equal(crc.crc32(buffer, buffer.length), expected, "crc32(hex'1234567809') != 0x55404551");
