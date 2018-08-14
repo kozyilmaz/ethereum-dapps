@@ -124,8 +124,8 @@ window.App = {
         contract.decimals(function (error, decimals) {
           if (!error) {
             tokenbalance = tokenbalance.div(10**decimals);
-            console.log("NST = " + tokenbalance.toString());
-            document.getElementById(elementName).innerHTML = tokenbalance + " NST";
+            console.log("NNT = " + tokenbalance.toString());
+            document.getElementById(elementName).innerHTML = tokenbalance + " NNT";
           } else {
             console.warn("decimals() failed!");
             document.getElementById(elementName).innerHTML = error;

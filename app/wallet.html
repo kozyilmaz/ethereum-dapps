@@ -17,35 +17,21 @@
     network
   </p>
 
-  <h1>Ethereum Truffle & Metamask Test</h1>
-  <h2>Check default Ethereum account balance via Metamask</h2>
-  <p>Your default Ethereum address:
-    <span class="black"><span id="etherbalanceauto"></span></span>
-    <span class="black"><span id="tokenbalanceauto"></span></span>
-    <span class="black">[<span id="networkname"></span> network]</span>
+  <h2>Check default Ethereum account ETH and NoNameToken balance via Metamask</h2>
+  <p>Your default Ethereum address balance is:
+    <div><b><span class="black"><span id="etherbalanceauto"></span></span></b></div>
+    <div><b><span class="black"><span id="tokenbalanceauto"></span></span></b></div>
   </p>
 
-  <br>
-  <h2>Check any Ethereum account balance</h2>
+  <h2>Check any Ethereum account ETH and NoNameToken balance</h2>
   <p>Enter your Ethereum Address:</p>
   <input type="text" size="50" id="address" />
   <button type="button" onClick="getBalance();">Get Balance</button>
-  <br><br>
-  <div id="etherbalancemanual"></div>
-  <div id="tokenbalancemanual"></div>
+  <p>
+    <div><b><span class="black"><span id="etherbalancemanual"></span></span></b></div>
+    <div><b><span class="black"><span id="tokenbalancemanual"></span></span></b></div>
+  </p>
 
-  <br>
-  <h2>Signup</h2>
-  <p>This is a simulated 'preferences' string (uint256):</p>
-  <input type="text" size="50" id="preferences" />
-  <button type="button" onClick="App.signUp();">Sign Up</button>
-  <br><br>
-  <div id="signedupevent"></div>
-
-  <br>
-  <br>
-  <button type="button" onClick="App.login();">Login By Signing A Nonce</button>
-<br>
   <!-- br>
   <h1>Add to my own contract balance</h1>
   <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
