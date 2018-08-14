@@ -27,11 +27,39 @@ function isHex(str) {
 window.App = {
   start: function() {
     var self = this;
+
+    // check Metamask availability
+    if (web3.currentProvider.isMetaMask) {
+      document.getElementById("metamaskavailability").innerHTML = "Metamask available"
+    } else {
+      document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'. Please set 'infuraAPIKey' in wallet.js if you don't use Metamask/Mist/localhost";
+    }
     // print network name and CRC32 contract address
     document.getElementById("contractaddress").innerHTML = contractAddress;
     self.getNetworkName("networkname");
     // Etherscan link of the smart contract
     document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + contractAddress + "#code";
+  },
+
+  // copied from https://ethereum.stackexchange.com/questions/24266/elegant-way-to-detect-current-provider-int-web3-js
+  getCurrentProviderName: function() {
+    if (window.web3.currentProvider.isMetaMask)
+      return 'metamask';
+    if (window.web3.currentProvider.isTrust)
+      return 'trust';
+    if (typeof window.SOFA !== 'undefined')
+      return 'toshi';
+    if (typeof window.__CIPHER__ !== 'undefined')
+      return 'cipher';
+    if (window.web3.currentProvider.constructor.name === 'EthereumProvider')
+      return 'mist';
+    if (window.web3.currentProvider.constructor.name === 'Web3FrameProvider')
+      return 'parity';
+    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('infura') !== -1)
+      return 'infura';
+    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('localhost') !== -1)
+      return 'localhost';
+    return 'unknown';
   },
 
   // gets network name
