@@ -9,6 +9,7 @@ $ sudo apt-get install -y nodejs
 $ sudo npm install -g express
 $ sudo npm install -g truffle
 $ sudo npm install -g ganache-cli
+$ sudo npm install -g browserify
 $ sudo ln -sf /usr/bin/truffle /usr/local/bin/truffle
 ```
 
@@ -19,6 +20,7 @@ Install `npm` and `node` using the `node-$VERSION.pkg` macOS installer found [he
 $ sudo npm install -g express
 $ sudo npm install -g truffle
 $ sudo npm install -g ganache-cli
+$ sudo npm install -g browserify
 ```
 
 ### Setting up a Truffle smart contract project
