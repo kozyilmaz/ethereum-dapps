@@ -32,7 +32,11 @@ window.App = {
     if (web3.currentProvider.isMetaMask) {
       document.getElementById("metamaskavailability").innerHTML = "Metamask available"
     } else {
-      document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'. Please set 'infuraAPIKey' in wallet.js if you don't use Metamask/Mist/localhost";
+      if (self.getCurrentProviderName() !== "infura") {
+        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'. Please set 'infuraAPIKey' in crc32.js if want to use Infura!";
+      } else {
+        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'";
+      }
     }
     // print network name and CRC32 contract address
     document.getElementById("contractaddress").innerHTML = contractAddress;
