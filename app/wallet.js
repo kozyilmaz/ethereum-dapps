@@ -1,4 +1,7 @@
 
+// Infura API key, please check web3 provider loading at the bottom
+let infuraAPIKey = "";
+
 // ERC20 compliant minimum ABI
 let tokenABI = [
     // balanceOf
@@ -109,7 +112,7 @@ window.App = {
 
 };
 
-// hook up web3 provider
+// hooking up web3 provider
 window.addEventListener('load', function() {
   // checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -118,9 +121,13 @@ window.addEventListener('load', function() {
   } else {
     // fallback - infura or localhost
     console.log('No Web3 Detected... using HTTP Provider')
-    // you may use Infura instead of local node if you provide an API key
-    //window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + INFURA_API_KEY));
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    if (!infuraAPIKey || infuraAPIKey === "") {
+      // use local node
+      window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    } else {
+      // use Infura
+      window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + infuraAPIKey));
+    }
   }
   App.start();
 });
