@@ -59,11 +59,16 @@ window.App = {
     try {
       // check if string is hexadecimal or ASCII
       if (isHex(data)) {
+        // pad '0' before the last character for odd length
+        if ((data.length % 2) != 0) {
+          var l = data.length;
+          data = data.substring(0, l-1) + "0" + data.substring(l-1);
+        }
         buffer = data;
       } else {
         buffer = web3.fromAscii(data);
       }
-      size = (buffer.length - 2) / 2;
+      size = (buffer.length-2)/2;
       // Solidity will get a byte array without '0x'
       console.log("crc32('" + data + "') [buffer: " + buffer + " size: " + size + "]");
 
