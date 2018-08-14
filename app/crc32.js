@@ -17,6 +17,12 @@ let contractABI = [
 // contract address
 let contractAddress = "0x0f7363cbad2f8d9f63bb64aad5dabaf3f1ff1a0c";
 
+// check if string is hexadecimal (starts with '0x' and is valid)
+function isHex(str) {
+    var regexp = /\b0x[0-9A-F]+\b/i;
+    return regexp.test(str);
+}
+
 // application
 window.App = {
   start: function() {
@@ -24,6 +30,8 @@ window.App = {
     // print network name and CRC32 contract address
     document.getElementById("contractaddress").innerHTML = contractAddress;
     self.getNetworkName("networkname");
+    // Etherscan link of the smart contract
+    document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + contractAddress + "#code";
   },
 
   // gets network name
@@ -44,18 +52,33 @@ window.App = {
   // CRC32 function
   CRC32: function() {
     var self = this;
+
+    let size;
+    let buffer;
     let data = document.getElementById("data").value;
     try {
+      // check if string is hexadecimal or ASCII
+      if (isHex(data)) {
+        buffer = data;
+      } else {
+        buffer = web3.fromAscii(data);
+      }
+      size = (buffer.length - 2) / 2;
+      // Solidity will get a byte array without '0x'
+      console.log("crc32('" + data + "') [buffer: " + buffer + " size: " + size + "]");
+
       let contract = web3.eth.contract(contractABI).at(contractAddress);
-      contract.crc32("123456789", 9, function(error, result) {
+      contract.crc32(buffer, size, function(error, result) {
         if (!error) {
-          document.getElementById("crc32result").innerHTML = result;
+          document.getElementById("crc32result").innerHTML = "0x" + result.toString(16);
         } else {
           console.warn("crc32() failed!");
           document.getElementById("crc32result").innerHTML = error;
         }
       });
     } catch (error) {
+      console.warn("invalid data");
+      document.getElementById("crc32result").innerHTML = "invalid data";
     }
   }
 
@@ -70,9 +93,13 @@ window.addEventListener('load', function() {
   } else {
     // fallback - infura or localhost
     console.log('No Web3 Detected... using HTTP Provider')
-    // you may use Infura instead of local node if you provide an API key
-    //window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + infuraAPIKey));
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    if (!infuraAPIKey || infuraAPIKey === "") {
+      // use local node
+      window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    } else {
+      // use Infura
+      window.web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/" + infuraAPIKey));
+    }
   }
   App.start();
 });
