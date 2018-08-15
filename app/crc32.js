@@ -32,7 +32,7 @@ window.App = {
     if (web3.currentProvider.isMetaMask) {
       document.getElementById("providernote").innerHTML = "Metamask is available, please set network to Rinkeby!"
     } else {
-      document.getElementById("providernote").innerHTML = "Metamask is NOT available, please set 'infuraAPIKey' in crc32.js and use Rinkeby network!";
+      document.getElementById("providernote").innerHTML = "Metamask is NOT available, please use a local node or set 'infuraAPIKey' in crc32.js and connect to Rinkeby network!";
     }
     // print network name and CRC32 contract address
     document.getElementById("contractaddress").innerHTML = contractAddress;
