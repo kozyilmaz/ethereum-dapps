@@ -4,7 +4,7 @@ let infuraAPIKey = "";
 
 // ERC20 compliant minimum ABI
 let ERC20ContractABI = [
-    // balanceOf
+    // balanceOf (function)
     {
       "constant": true,
       "inputs": [{"name":"_owner","type":"address"}],
@@ -12,7 +12,31 @@ let ERC20ContractABI = [
       "outputs": [{"name": "","type":"uint256"}],
       "type": "function"
     },
-    // name
+    // transfer (function)
+    {
+      "constant": false,
+      "inputs": [{"name": "_to","type": "address"},{"name":"_value","type":"uint256"}],
+      "name": "transfer",
+      "outputs": [{"name":"","type":"bool"}],
+      "type": "function"
+    },
+
+    // transferFrom (function)
+    {
+      "constant": false,
+      "inputs": [{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],
+      "name": "transferFrom",
+      "outputs": [{"name":"","type":"bool"}],
+      "type": "function"
+    },
+    // Transfer (event)
+    {
+      "anonymous": false,
+      "inputs": [{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],
+      "name": "Transfer",
+      "type": "event"
+    },
+    // name (function)
     {
       "constant": true,
       "inputs": [],
@@ -20,7 +44,7 @@ let ERC20ContractABI = [
       "outputs":[{"name":"","type":"string"}],
       "type": "function"
     },
-    // symbol
+    // symbol (function)
     {
       "constant": true,
       "inputs": [],
@@ -28,7 +52,7 @@ let ERC20ContractABI = [
       "outputs": [{"name":"","type":"string"}],
       "type": "function"
     },
-    // decimals
+    // decimals (function)
     {
       "constant": true,
       "inputs": [],
@@ -58,16 +82,15 @@ window.App = {
     document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + NNTTokenAddress + "#code";
 
     // get the initial account balance (requires Metamask/Mist)
-    web3.eth.getAccounts(function(error, accs) {
+    web3.eth.getAccounts(function(error, accounts) {
       if (error != null) {
         alert("There was an error fetching your accounts.");
         return;
       }
-      if (accs.length == 0) {
+      if (accounts.length == 0) {
         alert("Couldn't get any accounts, probably Metamask/Mist is not present!");
         return;
       }
-      var accounts = accs;
       var account = accounts[0];
       console.log("default account is:" + account);
 
@@ -192,7 +215,7 @@ window.App = {
       // send ether to any address from default address
       web3.eth.sendTransaction({from:account, to:toAddress, value:web3.toWei(amount, "ether")}, function(error, transactionHash) {
         if (!error) {
-          document.getElementById("sendethstatus").innerHTML = "tx hash " + transactionHash;
+          document.getElementById("sendethstatus").innerHTML = "tx hash: " + transactionHash;
           // update balance
           self.getEtherBalance(account, "etherbalanceauto");
         } else {
@@ -200,8 +223,49 @@ window.App = {
         }
       });
     });
-  }
+  },
 
+  // send ERC20 token
+  sendToken: function() {
+    var self = this;
+    let contractAddress = document.getElementById("erc20address").value;
+    if (web3.isAddress(contractAddress) != true) {
+      document.getElementById("sendtokenstatus").innerHTML = "error: invalid token address";
+      return;
+    }
+    let amount = parseFloat(document.getElementById("tokenamount").value);
+    if (isNaN(amount)) {
+      document.getElementById("sendtokenstatus").innerHTML = "error: invalid amount";
+      return;
+    }
+    let toTokenAddress = document.getElementById("totokenaddress").value;
+    if (web3.isAddress(toTokenAddress) != true) {
+      document.getElementById("sendtokenstatus").innerHTML = "error: invalid token address";
+      return;
+    }
+    let contract = web3.eth.contract(ERC20ContractABI).at(contractAddress);
+    // decimals()
+    contract.decimals(function (error, decimals) {
+      if (!error) {
+        // transfer
+        contract.transfer(toTokenAddress, amount * (10**decimals), function(error, result) {
+          if (!error) {
+            document.getElementById("sendtokenstatus").innerHTML = "result: " + result;
+            // update balance
+            self.getEtherBalance(account, "etherbalanceauto");
+          } else {
+            console.warn("transfer() failed!");
+            document.getElementById("sendtokenstatus").innerHTML = error;
+            return;
+          }
+        });
+      } else {
+        console.warn("decimals() failed!");
+        document.getElementById("sendtokenstatus").innerHTML = error;
+        return;
+      }
+    });
+  }
 
 };
 
