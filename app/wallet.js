@@ -20,7 +20,14 @@ let ERC20ContractABI = [
       "outputs":[{"name":"","type":"string"}],
       "type": "function"
     },
-
+    // symbol
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [{"name":"","type":"string"}],
+      "type": "function"
+    },
     // decimals
     {
       "constant": true,
@@ -91,11 +98,27 @@ window.App = {
     let contract = web3.eth.contract(contractABI).at(contractAddress);
     contract.balanceOf(walletAddress, function(error, tokenbalance) {
       if (!error) {
+        // decimals()
         contract.decimals(function (error, decimals) {
           if (!error) {
             tokenbalance = tokenbalance.div(10**decimals);
-            console.log(tokenbalance.toString());
-            document.getElementById(outElement).innerHTML = tokenbalance + " Token";
+            // name()
+            contract.name(function (error, name) {
+              if (!error) {
+                // symbol
+                contract.symbol(function (error, symbol) {
+                  if (!error) {
+                    document.getElementById(outElement).innerHTML = tokenbalance + " " + symbol + " (" + name + ")" ;
+                  } else {
+                    console.warn("symbol() failed!");
+                    document.getElementById(outElement).innerHTML = error;
+                  }
+                });
+              } else {
+                console.warn("name() failed!");
+                document.getElementById(outElement).innerHTML = error;
+              }
+            });
           } else {
             console.warn("decimals() failed!");
             document.getElementById(outElement).innerHTML = error;
