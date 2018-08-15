@@ -25,13 +25,25 @@
   </p>
 
   <h2>Send ETH to address from your default Ethereum account via Metamask</h2>
-  <input type="text" size="50" id="amount" placeholder="enter amount, e.g. 0.03"></input>
+  <input type="text" size="50" id="ethamount" placeholder="enter ETH amount, e.g. 0.03"></input>
   <br />
-  <input type="text" size="50" id="toaddress" placeholder="send to address (0x...)" />
+  <input type="text" size="50" id="toaddress" placeholder="enter address to send ETH (0x...)" />
   <br />
   <button id="send" onclick="App.sendEther()">Send ETH to address</button>
   <p>
     <div><span style="font-weight:bold" id="sendethstatus"></span></div>
+  </p>
+
+  <h2>Send custom ERC20 token to any address from your default Ethereum account via Metamask</h2>
+  <input type="text" size="50" id="erc20address" placeholder="enter ERC20 token address (0x...)" />
+  <br />
+  <input type="text" size="50" id="tokenamount" placeholder="enter ERC20 token amount, e.g. 0.03"></input>
+  <br />
+  <input type="text" size="50" id="totokenaddress" placeholder="enter address to send ERC20 tokens (0x...)" />
+  <br />
+  <button id="send" onclick="App.sendToken()">Send ERC20 token to address</button>
+  <p>
+    <div><span style="font-weight:bold" id="sendtokenstatus"></span></div>
   </p>
 
   <h2>Check ETH and NoNameToken balance of an Ethereum address</h2>

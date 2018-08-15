@@ -164,7 +164,7 @@ window.App = {
   // send ether
   sendEther: function() {
     var self = this;
-    let amount = parseFloat(document.getElementById("amount").value);
+    let amount = parseFloat(document.getElementById("ethamount").value);
     if (isNaN(amount)) {
       document.getElementById("sendethstatus").innerHTML = "error: invalid amount";
       return;
