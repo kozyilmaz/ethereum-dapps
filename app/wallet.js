@@ -3,7 +3,7 @@
 let infuraAPIKey = "";
 
 // ERC20 compliant minimum ABI
-let contractABI = [
+let ERC20ContractABI = [
     // balanceOf
     {
       "constant": true,
@@ -12,6 +12,15 @@ let contractABI = [
       "outputs": [{"name": "","type":"uint256"}],
       "type": "function"
     },
+    // name
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs":[{"name":"","type":"string"}],
+      "type": "function"
+    },
+
     // decimals
     {
       "constant": true,
@@ -22,28 +31,24 @@ let contractABI = [
     }
 ];
 
-// ERC20 token address
-let contractAddress = "0x0edd6c7576e31a740e7bef46388bf91057631b60";
+// NoNameToken (ERC20-compliant) address
+let NNTTokenAddress = "0x0edd6c7576e31a740e7bef46388bf91057631b60";
 
 window.App = {
   start: function() {
     var self = this;
 
+
     // check Metamask availability
     if (web3.currentProvider.isMetaMask) {
-      document.getElementById("metamaskavailability").innerHTML = "Metamask available"
+      document.getElementById("providernote").innerHTML = "Metamask is available, please set network to Rinkeby!"
     } else {
-      if (self.getCurrentProviderName() !== "infura") {
-        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'. Please set 'infuraAPIKey' in wallet.js if want to use Infura!";
-      } else {
-        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'";
-      }
+      document.getElementById("providernote").innerHTML = "Metamask is NOT available, please use a local node or set 'infuraAPIKey' in crc32.js and connect to Rinkeby network! Some functionality will not work without Metamask";
     }
     // print network name and CRC32 contract address
-    document.getElementById("contractaddress").innerHTML = contractAddress;
-    self.getNetworkName("networkname");
+    document.getElementById("contractaddress").innerHTML = NNTTokenAddress;
     // Etherscan link of the smart contract
-    document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + contractAddress + "#code";
+    document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + NNTTokenAddress + "#code";
 
     // get the initial account balance (requires Metamask/Mist)
     web3.eth.getAccounts(function(error, accs) {
@@ -59,64 +64,29 @@ window.App = {
       var account = accounts[0];
       console.log("default account is:" + account);
 
+      document.getElementById("defaultaddress").innerHTML = account;
       self.getEtherBalance(account, "etherbalanceauto");
-      self.getTokenBalance(account, "tokenbalanceauto");
+      self.getTokenBalance(account, ERC20ContractABI, NNTTokenAddress, "tokenbalanceauto");
     });
   },
 
-  // copied from https://ethereum.stackexchange.com/questions/24266/elegant-way-to-detect-current-provider-int-web3-js
-  getCurrentProviderName: function() {
-    if (window.web3.currentProvider.isMetaMask)
-      return 'metamask';
-    if (window.web3.currentProvider.isTrust)
-      return 'trust';
-    if (typeof window.SOFA !== 'undefined')
-      return 'toshi';
-    if (typeof window.__CIPHER__ !== 'undefined')
-      return 'cipher';
-    if (window.web3.currentProvider.constructor.name === 'EthereumProvider')
-      return 'mist';
-    if (window.web3.currentProvider.constructor.name === 'Web3FrameProvider')
-      return 'parity';
-    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('infura') !== -1)
-      return 'infura';
-    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('localhost') !== -1)
-      return 'localhost';
-    return 'unknown';
-  },
-
-  // gets network name
-  getNetworkName: function(elementName) {
-    var self = this;
-    web3.version.getNetwork((err, netId) => {
-      switch (netId) {
-        case "1": console.log('Mainnet'); document.getElementById(elementName).innerHTML = "Mainnet"; break;
-        case "2": console.log('Morden (Test)'); document.getElementById(elementName).innerHTML = "Morden (Test)"; break;
-        case "3": console.log('Ropsten (Test)'); document.getElementById(elementName).innerHTML = "Ropsten (Test)"; break;
-        case "4": console.log('Rinkeby (Test)'); document.getElementById(elementName).innerHTML = "Rinkeby (Test)"; break;
-        case "42": console.log('Kovan (Test)'); document.getElementById(elementName).innerHTML = "Kovan (Test)"; break;
-        default: console.log('Unknown'); document.getElementById(elementName).innerHTML = "Unknown";
-      }
-    })
-  },
-
   // gets ether balance
-  getEtherBalance: function(walletAddress, elementName) {
+  getEtherBalance: function(walletAddress, outElement) {
     var self = this;
     web3.eth.getBalance(walletAddress, function (error, wei) {
       if (!error) {
         let etherbalance = web3.fromWei(wei, 'ether');
         console.log("ETH = " + etherbalance.toString());
-        document.getElementById(elementName).innerHTML = etherbalance + " ETH";
+        document.getElementById(outElement).innerHTML = etherbalance + " ETH";
       } else {
         console.warn("getBalance() failed!");
-        document.getElementById(elementName).innerHTML = error;
+        document.getElementById(outElement).innerHTML = error;
       }
     });
   },
 
   // gets token balance
-  getTokenBalance: function(walletAddress, elementName) {
+  getTokenBalance: function(walletAddress, contractABI, contractAddress, outElement) {
     var self = this;
     let contract = web3.eth.contract(contractABI).at(contractAddress);
     contract.balanceOf(walletAddress, function(error, tokenbalance) {
@@ -124,35 +94,44 @@ window.App = {
         contract.decimals(function (error, decimals) {
           if (!error) {
             tokenbalance = tokenbalance.div(10**decimals);
-            console.log("NNT = " + tokenbalance.toString());
-            document.getElementById(elementName).innerHTML = tokenbalance + " NNT";
+            console.log(tokenbalance.toString());
+            document.getElementById(outElement).innerHTML = tokenbalance + " Token";
           } else {
             console.warn("decimals() failed!");
-            document.getElementById(elementName).innerHTML = error;
+            document.getElementById(outElement).innerHTML = error;
           }
         });
       } else {
         console.warn("balanceOf() failed!");
-        document.getElementById(elementName).innerHTML = error;
+        document.getElementById(outElement).innerHTML = error;
         // if QJuery is used statement above gets simpler
-        //$('#' + elementName).html(error);
+        //$('#' + outElement).html(error);
       }
     });
+  },
+
+  // gets total balance (ETH + NNT)
+  getTotalBalance: function() {
+    var self = this;
+    let walletAddress = document.getElementById("address").value;
+    try {
+      self.getEtherBalance(walletAddress, "etherbalancemanual");
+      self.getTokenBalance(walletAddress, ERC20ContractABI, NNTTokenAddress, "tokenbalancemanual");
+    } catch (error) {
+      document.getElementById("etherbalancemanual").innerHTML = error;
+      document.getElementById("tokenbalancemanual").innerHTML = error;
+    }
+  },
+
+  // gets custom token balance
+  getCustomTokenBalance: function() {
+    var self = this;
+    let walletAddress = document.getElementById("ethaddress").value;
+    let contractAddress = document.getElementById("tokenaddress").value;
+    self.getTokenBalance(walletAddress, ERC20ContractABI, contractAddress, "customtokenbalance");
   }
 
 };
-
-// get ether balance of the given address
-window.getBalance = () => {
-  let walletAddress = document.getElementById("address").value
-  try {
-    App.getEtherBalance(walletAddress, "etherbalancemanual");
-    App.getTokenBalance(walletAddress, "tokenbalancemanual");
-  } catch (error) {
-    document.getElementById("etherbalancemanual").innerHTML = error;
-    document.getElementById("tokenbalancemanual").innerHTML = error;
-  }
-}
 
 // hooking up web3 provider
 window.addEventListener('load', function() {
