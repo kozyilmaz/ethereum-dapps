@@ -14,7 +14,7 @@ Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` 
 
 ## Development and Testing
 
-Basic commands for development and testing are as follows:
+Basic commands for development and testing are as follows
 
 ```sh
 # everytime you had a fresh checkout, get dependencies via
@@ -37,7 +37,7 @@ $ truffle migrate --network mainnet
 $ truffle migrate --network ropsten
 $ truffle migrate --network rinkeby
 
-# serve static content with lite-server
+# serve static content with lite-server at localhost:3000
 $ npm run dev
 ```
 
