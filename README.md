@@ -4,9 +4,9 @@
 
 ## Contents
 
-This repository contains sample DApps and smart contracts and all smart contracts are deployed on Ethereum's **Rinkeby** testnet. [Metamask](https://metamask.io) browser extension is used for testing/development purposes  
-Some of the tests may require Metamask/Mist due to account access, however pages like `crc32.html` may be tested just using [Infura](https://infura.io).  
-Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` variable you may execute most of the tests without Metamask/Mist presence  
+This repository contains sample DApps and smart contracts developed for Ethereum platform. All smart contracts are deployed on Ethereum's **Rinkeby** testnet. [Metamask](https://metamask.io) browser extension is used for testing and development  
+Some of the tests may require Metamask/Mist due to account accesses, however pages like `crc32.html` may be tested just using [Infura](https://infura.io).  
+Please check out the `*.js` files in `app` directory. By setting `infuraAPIKey` variable you may execute most of the tests without needing Metamask/Mist  
 
 * Ethereum network access via web3 provider may be checked using `app/conn.*` files
 * CRC32 DApp in `app/crc32.*` interfaces with a [IEEE 802.3 compliant CRC32 calculator smart contract](https://rinkeby.etherscan.io/address/0x0f7363cbad2f8d9f63bb64aad5dabaf3f1ff1a0c#code)
