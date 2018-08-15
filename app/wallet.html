@@ -24,8 +24,19 @@
     <div><span style="font-weight:bold" id="tokenbalanceauto"></span></div>
   </p>
 
+  <h2>Send ETH to address from your default Ethereum account via Metamask</h2>
+  <input type="text" size="50" id="amount" placeholder="enter amount, e.g. 0.03"></input>
+  <br />
+  <input type="text" size="50" id="toaddress" placeholder="send to address (0x...)" />
+  <br />
+  <button id="send" onclick="App.sendEther()">Send ETH to address</button>
+  <p>
+    <div><span style="font-weight:bold" id="sendethstatus"></span></div>
+  </p>
+
   <h2>Check ETH and NoNameToken balance of an Ethereum address</h2>
   <input type="text" size="50" id="address" placeholder="enter Ethereum address (0x...)" />
+  <br />
   <button type="button" onClick="App.getTotalBalance();">Get Balance</button>
   <p>
     <div><span style="font-weight:bold" id="etherbalancemanual"></span></div>
@@ -35,24 +46,13 @@
   <h2>Check custom token balance of an Ethereum address</h2>
   <input type="text" size="50" id="ethaddress" placeholder="enter Ethereum address (0x...)" />
   <br />
-  <input type="text" size="50" id="tokenaddress" placeholder="enter token address (0x...)" />
+  <input type="text" size="50" id="tokenaddress" placeholder="enter ERC20 token address (0x...)" />
+  <br />
   <button type="button" onClick="App.getCustomTokenBalance();">Get Custom Token Balance</button>
   <p>
     <div><span style="font-weight:bold" id="customtokenbalance"></span></div>
   </p>
 
-  <!-- br>
-  <h1>Add to my own contract balance</h1>
-  <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
-  <br><br><button id="send" onclick="App.sendCoin()">Add some ¿X? Coin</button>
-  <br><br>
-  <span id="status"></span>
-  <br>
-  <span>Adding something to your contract costs FUEL to your account</span>
-  <br>
-  <span id="status2"></span>
-  <br><br>
-  <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span-->
 
 </body>
 </html>

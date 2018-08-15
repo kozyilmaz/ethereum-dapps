@@ -83,7 +83,6 @@ window.App = {
     web3.eth.getBalance(walletAddress, function (error, wei) {
       if (!error) {
         let etherbalance = web3.fromWei(wei, 'ether');
-        console.log("ETH = " + etherbalance.toString());
         document.getElementById(outElement).innerHTML = etherbalance + " ETH";
       } else {
         console.warn("getBalance() failed!");
@@ -146,21 +145,63 @@ window.App = {
     }
   },
 
-  // gets custom token balance
+  // get custom token balance
   getCustomTokenBalance: function() {
     var self = this;
     let walletAddress = document.getElementById("ethaddress").value;
     if (web3.isAddress(walletAddress) != true) {
-      document.getElementById("customtokenbalance").innerHTML = "invalid wallet address";
+      document.getElementById("customtokenbalance").innerHTML = "error: invalid wallet address";
       return;
     }
     let contractAddress = document.getElementById("tokenaddress").value;
     if (web3.isAddress(contractAddress) != true) {
-      document.getElementById("customtokenbalance").innerHTML = "invalid token address";
+      document.getElementById("customtokenbalance").innerHTML = "error: invalid token address";
       return;
     }
     self.getTokenBalance(walletAddress, ERC20ContractABI, contractAddress, "customtokenbalance");
+  },
+
+  // send ether
+  sendEther: function() {
+    var self = this;
+    let amount = parseFloat(document.getElementById("amount").value);
+    if (isNaN(amount)) {
+      document.getElementById("sendethstatus").innerHTML = "error: invalid amount";
+      return;
+    }
+    let toAddress = document.getElementById("toaddress").value;
+    if (web3.isAddress(toAddress) != true) {
+      document.getElementById("sendethstatus").innerHTML = "error: invalid sending address";
+      return;
+    }
+    // get default address
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error != null) {
+        document.getElementById("sendethstatus").innerHTML = "error: unable to get account";
+        return;
+      }
+      if (accounts.length == 0) {
+        document.getElementById("sendethstatus").innerHTML = "error: no account found";
+        return;
+      }
+      var account = accounts[0];
+
+      // update status before sending the transaction
+      document.getElementById("sendethstatus").innerHTML = "Initiating transaction... (please wait)";
+
+      // send ether to any address from default address
+      web3.eth.sendTransaction({from:account, to:toAddress, value:web3.toWei(amount, "ether")}, function(error, transactionHash) {
+        if (!error) {
+          document.getElementById("sendethstatus").innerHTML = "tx hash " + transactionHash;
+          // update balance
+          self.getEtherBalance(account, "etherbalanceauto");
+        } else {
+          document.getElementById("sendethstatus").innerHTML = error;
+        }
+      });
+    });
   }
+
 
 };
 
