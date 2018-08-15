@@ -77,7 +77,7 @@ window.App = {
     });
   },
 
-  // gets ether balance
+  // get ether balance
   getEtherBalance: function(walletAddress, outElement) {
     var self = this;
     web3.eth.getBalance(walletAddress, function (error, wei) {
@@ -92,7 +92,7 @@ window.App = {
     });
   },
 
-  // gets token balance
+  // get any token balance
   getTokenBalance: function(walletAddress, contractABI, contractAddress, outElement) {
     var self = this;
     let contract = web3.eth.contract(contractABI).at(contractAddress);
@@ -133,7 +133,7 @@ window.App = {
     });
   },
 
-  // gets total balance (ETH + NNT)
+  // get total balance (ETH + NNT)
   getTotalBalance: function() {
     var self = this;
     let walletAddress = document.getElementById("address").value;
@@ -150,7 +150,15 @@ window.App = {
   getCustomTokenBalance: function() {
     var self = this;
     let walletAddress = document.getElementById("ethaddress").value;
+    if (web3.isAddress(walletAddress) != true) {
+      document.getElementById("customtokenbalance").innerHTML = "invalid wallet address";
+      return;
+    }
     let contractAddress = document.getElementById("tokenaddress").value;
+    if (web3.isAddress(contractAddress) != true) {
+      document.getElementById("customtokenbalance").innerHTML = "invalid token address";
+      return;
+    }
     self.getTokenBalance(walletAddress, ERC20ContractABI, contractAddress, "customtokenbalance");
   }
 
