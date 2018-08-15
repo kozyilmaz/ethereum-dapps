@@ -65,10 +65,12 @@ let ERC20ContractABI = [
 // NoNameToken (ERC20-compliant) address
 let NNTTokenAddress = "0x0edd6c7576e31a740e7bef46388bf91057631b60";
 
+// default account
+var account;
+
 window.App = {
   start: function() {
     var self = this;
-
 
     // check Metamask availability
     if (web3.currentProvider.isMetaMask) {
@@ -91,7 +93,8 @@ window.App = {
         alert("Couldn't get any accounts, probably Metamask/Mist is not present!");
         return;
       }
-      var account = accounts[0];
+      // store default account for later use
+      account = accounts[0];
       console.log("default account is:" + account);
 
       document.getElementById("defaultaddress").innerHTML = account;
@@ -197,31 +200,19 @@ window.App = {
       document.getElementById("sendethstatus").innerHTML = "error: invalid sending address";
       return;
     }
-    // get default address
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error != null) {
-        document.getElementById("sendethstatus").innerHTML = "error: unable to get account";
-        return;
-      }
-      if (accounts.length == 0) {
-        document.getElementById("sendethstatus").innerHTML = "error: no account found";
-        return;
-      }
-      var account = accounts[0];
 
-      // update status before sending the transaction
-      document.getElementById("sendethstatus").innerHTML = "Initiating transaction... (please wait)";
+    // update status before sending the transaction
+    document.getElementById("sendethstatus").innerHTML = "Initiating transaction... (please wait)";
 
-      // send ether to any address from default address
-      web3.eth.sendTransaction({from:account, to:toAddress, value:web3.toWei(amount, "ether")}, function(error, transactionHash) {
-        if (!error) {
-          document.getElementById("sendethstatus").innerHTML = "tx hash: " + transactionHash;
-          // update balance
-          self.getEtherBalance(account, "etherbalanceauto");
-        } else {
-          document.getElementById("sendethstatus").innerHTML = error;
-        }
-      });
+    // send ether to any address from default address
+    web3.eth.sendTransaction({from:account, to:toAddress, value:web3.toWei(amount, "ether")}, function(error, transactionHash) {
+      if (!error) {
+        document.getElementById("sendethstatus").innerHTML = "Transaction sent with hash: " + transactionHash;
+        // update balance
+        self.getEtherBalance(account, "etherbalanceauto");
+      } else {
+        document.getElementById("sendethstatus").innerHTML = error;
+      }
     });
   },
 
@@ -243,18 +234,41 @@ window.App = {
       document.getElementById("sendtokenstatus").innerHTML = "error: invalid token address";
       return;
     }
+    // ready
+    document.getElementById("sendtokenstatus").innerHTML = "Initiating transaction... (please wait)" ;
+
     let contract = web3.eth.contract(ERC20ContractABI).at(contractAddress);
     // decimals()
     contract.decimals(function (error, decimals) {
       if (!error) {
-        // transfer
-        contract.transfer(toTokenAddress, amount * (10**decimals), function(error, result) {
+        // blockNumber
+        web3.eth.getBlockNumber(function(error, blockNumber) {
           if (!error) {
-            document.getElementById("sendtokenstatus").innerHTML = "result: " + result;
-            // update balance
-            self.getEtherBalance(account, "etherbalanceauto");
+            // transfer()
+            contract.transfer(toTokenAddress, amount * (10**decimals), function(error, result) {
+              if (!error) {
+                document.getElementById("sendtokenstatus").innerHTML = "Waiting for the 'Transfer' event" ;
+                // catch Transfer event
+                var transferEvent = contract.Transfer({}, {fromBlock: blockNumber, toBlock: 'latest'});
+                transferEvent.watch(function(error, result) {
+                  if (!error) {
+                    document.getElementById("sendtokenstatus").innerHTML = "from: " + result.args.from + "<br />" + "to: " + result.args.to + "<br />" + "value: " + (result.args.value / (10**decimals));
+                    // update balance
+                    self.getEtherBalance(account, "etherbalanceauto");
+                  } else {
+                    console.warn("transfer() failed!");
+                    document.getElementById("sendtokenstatus").innerHTML = error;
+                    return;
+                  }
+                });
+              } else {
+                console.warn("transfer() failed!");
+                document.getElementById("sendtokenstatus").innerHTML = error;
+                return;
+              }
+            });
           } else {
-            console.warn("transfer() failed!");
+            console.warn("blockNumber() failed!");
             document.getElementById("sendtokenstatus").innerHTML = error;
             return;
           }
