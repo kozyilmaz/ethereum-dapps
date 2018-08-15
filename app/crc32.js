@@ -30,55 +30,14 @@ window.App = {
 
     // check Metamask availability
     if (web3.currentProvider.isMetaMask) {
-      document.getElementById("metamaskavailability").innerHTML = "Metamask available"
+      document.getElementById("providernote").innerHTML = "Metamask is available, please set network to Rinkeby!"
     } else {
-      if (self.getCurrentProviderName() !== "infura") {
-        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'. Please set 'infuraAPIKey' in crc32.js if want to use Infura!";
-      } else {
-        document.getElementById("metamaskavailability").innerHTML = "Metamask is NOT available, provider is '" + self.getCurrentProviderName() + "'";
-      }
+      document.getElementById("providernote").innerHTML = "Metamask is NOT available, please set 'infuraAPIKey' in crc32.js and use Rinkeby network!";
     }
     // print network name and CRC32 contract address
     document.getElementById("contractaddress").innerHTML = contractAddress;
-    self.getNetworkName("networkname");
     // Etherscan link of the smart contract
     document.getElementById("etherscanurl").href = "https://rinkeby.etherscan.io/address/" + contractAddress + "#code";
-  },
-
-  // copied from https://ethereum.stackexchange.com/questions/24266/elegant-way-to-detect-current-provider-int-web3-js
-  getCurrentProviderName: function() {
-    if (window.web3.currentProvider.isMetaMask)
-      return 'metamask';
-    if (window.web3.currentProvider.isTrust)
-      return 'trust';
-    if (typeof window.SOFA !== 'undefined')
-      return 'toshi';
-    if (typeof window.__CIPHER__ !== 'undefined')
-      return 'cipher';
-    if (window.web3.currentProvider.constructor.name === 'EthereumProvider')
-      return 'mist';
-    if (window.web3.currentProvider.constructor.name === 'Web3FrameProvider')
-      return 'parity';
-    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('infura') !== -1)
-      return 'infura';
-    if (window.web3.currentProvider.host && window.web3.currentProvider.host.indexOf('localhost') !== -1)
-      return 'localhost';
-    return 'unknown';
-  },
-
-  // gets network name
-  getNetworkName: function(elementName) {
-    var self = this;
-    web3.version.getNetwork((err, netId) => {
-      switch (netId) {
-        case "1": console.log('Mainnet'); document.getElementById(elementName).innerHTML = "Mainnet"; break;
-        case "2": console.log('Morden (Test)'); document.getElementById(elementName).innerHTML = "Morden (Test)"; break;
-        case "3": console.log('Ropsten (Test)'); document.getElementById(elementName).innerHTML = "Ropsten (Test)"; break;
-        case "4": console.log('Rinkeby (Test)'); document.getElementById(elementName).innerHTML = "Rinkeby (Test)"; break;
-        case "42": console.log('Kovan (Test)'); document.getElementById(elementName).innerHTML = "Kovan (Test)"; break;
-        default: console.log('Unknown'); document.getElementById(elementName).innerHTML = "Unknown";
-      }
-    })
   },
 
   // CRC32 function
