@@ -12,9 +12,35 @@ Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` 
 * CRC32 DApp in `app/crc32.*` interfaces with a [IEEE 802.3 compliant CRC32 calculator smart contract](https://rinkeby.etherscan.io/address/0x0f7363cbad2f8d9f63bb64aad5dabaf3f1ff1a0c#code)
 * Ethereum connection may be checked using `app/conn.*` files
 
-## HowTo
+## Development and Testing
+```
+# everytime you had a fresh checkout, get dependencies via
+$ npm install
+
+# compile smart contracts
+$ truffle compile
+
+# test smart contracts
+$ truffle test
+
+# create an .env file to store wallet seed and infura api keys for smooth deployment
+$ cat .env
+MNEMONIC=<wallet seed phrases (may be Metamask)>
+INFURA_API_KEY=<infura api key>
+
+# deploy smart contracts on various networks
+$ truffle migrate --network localhost
+$ truffle migrate --network mainnet
+$ truffle migrate --network ropsten
+$ truffle migrate --network rinkeby
+
+# serve static content with lite-server
+$ npm run dev
+```
+
+## HowTo's
 
 Please refer to the following step-by-step guides to setup and develop with Truffle  
 
-[How to setup Truffle for macOS and Linux](docs/README.00-truffle.md)  
-[How to build Geth on macOS and Linux](docs/README.01-geth.md)
+* [How to setup Truffle for macOS and Linux](docs/README.00-truffle.md)  
+* [How to build Geth on macOS and Linux](docs/README.01-geth.md)
