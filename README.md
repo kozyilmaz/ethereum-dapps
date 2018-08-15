@@ -13,6 +13,9 @@ Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` 
 * Ethereum connection may be checked using `app/conn.*` files
 
 ## Development and Testing
+
+Basic commands for development and testing are as follows:
+
 ```
 # everytime you had a fresh checkout, get dependencies via
 $ npm install
@@ -23,7 +26,7 @@ $ truffle compile
 # test smart contracts
 $ truffle test
 
-# create an .env file to store wallet seed and infura api keys for smooth deployment
+# create an .env file to store wallet seed and infura api keys in project root dir
 $ cat .env
 MNEMONIC=<wallet seed phrases (may be Metamask)>
 INFURA_API_KEY=<infura api key>
@@ -40,7 +43,7 @@ $ npm run dev
 
 ## HowTo's
 
-Please refer to the following step-by-step guides to setup and develop with Truffle  
+If you have any questions on setting up Truffle, please refer to the following step-by-step guides  
 
 * [How to setup Truffle for macOS and Linux](docs/README.00-truffle.md)  
 * [How to build Geth on macOS and Linux](docs/README.01-geth.md)
