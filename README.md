@@ -2,6 +2,7 @@
 
 ![Screenshot](https://github.com/kozyilmaz/ethereum-dapps/raw/master/docs/wallet-tests.png "Ethereum DApp Development")
 
+**ping**
 
 ## Contents
 This repository contains sample DApps and smart contracts  
