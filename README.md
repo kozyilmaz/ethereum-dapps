@@ -12,6 +12,15 @@ Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` 
 * CRC32 DApp in `app/crc32.*` interfaces with a [IEEE 802.3 compliant CRC32 calculator smart contract](https://rinkeby.etherscan.io/address/0x0f7363cbad2f8d9f63bb64aad5dabaf3f1ff1a0c#code)
 * Ethereum connection may be checked using `app/conn.*` files
 
+
+## Setting Up
+
+Please refer to the following step-by-step guides to setup and start development with Truffle  
+
+* [How to setup Truffle for macOS and Linux](docs/README.00-truffle.md)
+* [How to build Geth on macOS and Linux](docs/README.01-geth.md)
+
+
 ## Development and Testing
 
 Basic commands for development and testing are as follows
@@ -40,10 +49,3 @@ $ truffle migrate --network rinkeby
 # serve static content with lite-server at localhost:3000
 $ npm run dev
 ```
-
-## HowTo's
-
-If you have any questions on setting up Truffle, please refer to the following step-by-step guides  
-
-* [How to setup Truffle for macOS and Linux](docs/README.00-truffle.md)  
-* [How to build Geth on macOS and Linux](docs/README.01-geth.md)
