@@ -16,7 +16,7 @@ Please check out the `*.js` files in `app` directory, by setting `infuraAPIKey` 
 
 Basic commands for development and testing are as follows:
 
-```
+```sh
 # everytime you had a fresh checkout, get dependencies via
 $ npm install
 
